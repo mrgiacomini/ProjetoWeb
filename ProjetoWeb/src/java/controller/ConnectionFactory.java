@@ -34,5 +34,4 @@ public class ConnectionFactory {
        Class.forName(driver);
        conn = DriverManager.getConnection(url+"/"+this.database,user,password);
    }
-   //Testing commit
 }
