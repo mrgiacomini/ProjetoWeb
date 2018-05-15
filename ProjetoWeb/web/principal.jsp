@@ -23,18 +23,12 @@
     </head>
     <body>
 
-        <%
-            if (request.getSession().getAttribute("logado") == null) {
-                response.sendRedirect("index.jsp");
-            }
-        %>
-
         <div class="menu">
             <ul class="font text">
                 <li><a href="" style="text-decoration: none; color: inherit;">HOME</a></li>
                 <li><a href="" style="text-decoration: none; color: inherit;">LAYOUTS</a></li>
                 <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
-                <li class="bordered">SIGN UP</li>
+                <li class="bordered"><a href="signup.jsp" style="text-decoration: none; color: inherit;">SIGN UP</a></li>
 
             </ul>
         </div>

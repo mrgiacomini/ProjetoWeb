@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mathe
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/LogoutServlet"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "SignUpServlet", urlPatterns = {"/SignUpServlet"})
+public class SignUpServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,17 +37,13 @@ public class LogoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");            
+            out.println("<title>Servlet SignUpServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SignUpServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-        
-        
-        
-        //request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,9 +58,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.getSession().invalidate();
-        response.sendRedirect("login.jsp");
+        processRequest(request, response);
     }
 
     /**
@@ -78,7 +72,25 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String usuario = (String)request.getAttribute("usuario");
+        String senha = (String)request.getAttribute("senha");
+        String repetir_senha = (String)request.getAttribute("repetir_senha");
+        
+        if(senha != repetir_senha){
+            response.getWriter().println("<h1>Senha não corresponde!</h1>");
+        }else{
+            request.getSession().setAttribute("logado", new Boolean(true));
+            request.getSession().setAttribute("usuario", usuario);
+            
+            //implementar conexao com banco para inserir usuario
+            
+            
+            
+            response.sendRedirect("principal.jsp");
+        }
+        
+        
     }
 
     /**
