@@ -72,18 +72,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
         
         if (request.getParameter("usuario").equals("teste") &&
             request.getParameter("senha").equals("")) {
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", "watinha");
-            //response.getWriter().println("<h1>Logado</h1>");
-            //response.sendRedirect("principal.jsp");
-            request.getRequestDispatcher("principal.jsp").forward(request, response);
+            response.getWriter().println("<p>Logado</p>");
+            
+            response.sendRedirect("principal.jsp");
+           
+            //request.getRequestDispatcher("PostsServlet").forward(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().println("<h1>You shall not pass!!!</h1>");
+            //implementar error page
         }
         
         
