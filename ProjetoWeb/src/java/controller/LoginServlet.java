@@ -6,7 +6,7 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,11 +29,11 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    /*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+    
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    }*/
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -77,15 +77,15 @@ public class LoginServlet extends HttpServlet {
         if (request.getParameter("usuario").equals("teste") &&
             request.getParameter("senha").equals("")) {
             request.getSession().setAttribute("logado", new Boolean(true));
-            request.getSession().setAttribute("usuario", "watinha");
-            response.getWriter().println("<p>Logado</p>");
+            request.getSession().setAttribute("usuario", "teste");
+            //response.getWriter().println("<p>Logado</p>");
             
             response.sendRedirect("principal.jsp");
            
             //request.getRequestDispatcher("PostsServlet").forward(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().println("<h1>You shall not pass!!!</h1>");
+            response.getWriter().println("<h1>Invalid user or password</h1>");
             //implementar error page
         }
         

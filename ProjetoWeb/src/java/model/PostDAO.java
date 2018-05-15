@@ -38,7 +38,6 @@ public class PostDAO {
 //            Logger.getLogger(PostsServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextao"));
-        //lista.add(new Post("Titulo2", "Subtitulo", "textao\ntextao\ntextao"));
         return lista;
     }
 }
