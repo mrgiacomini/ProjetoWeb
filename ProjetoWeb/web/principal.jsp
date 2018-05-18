@@ -4,7 +4,7 @@
     Author     : mathe
 --%>
 
-<%@page import="model.PostDAO"%>
+<%@page import="DAO.PostDAO"%>
 <%@page import="model.Post"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.logging.Logger"%>
@@ -27,7 +27,11 @@
             <ul class="font text">
                 <li><a href="" style="text-decoration: none; color: inherit;">HOME</a></li>
                 <li><a href="" style="text-decoration: none; color: inherit;">LAYOUTS</a></li>
-                <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
+                <% if (request.getSession().getAttribute("logado")!= null) {%>
+                    <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
+                <%} else {%>
+                    <li><a href="login.jsp" style="text-decoration: none; color: inherit;">LOGIN</a></li>
+                <%}%>
                 <li class="bordered"><a href="signup.jsp" style="text-decoration: none; color: inherit;">SIGN UP</a></li>
 
             </ul>
@@ -53,7 +57,7 @@
                 </div>  
 
                 <%  PostDAO postDAO = new PostDAO();
-                    ArrayList<Post>lista = postDAO.listaPosts();
+                    ArrayList<Post> lista = postDAO.listaPosts();
                     if (lista != null) {
                         for (Post p : lista) {
                 %> 
@@ -65,12 +69,12 @@
                     <p class="font info_caption minor_text"><%=p.getSubtitle()%></p>
                     <p class="font info_txt"><%=p.getText()%></p>
                 </div>     
-                    <%    }
-                        }
-                    %>
-                
+                <%    }
+                    }
+                %>
 
-                    <p class="learn_more1 font minor_text">LEARN MORE</p>
+
+                <p class="learn_more1 font minor_text">LEARN MORE</p>
             </div>
 
         </div>

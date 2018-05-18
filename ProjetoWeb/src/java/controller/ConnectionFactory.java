@@ -13,19 +13,19 @@ import java.sql.*;
  */
 public class ConnectionFactory {
        
-   public Connection getConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{   
-        //return getMySqlConnection(database,user,password);
-        return getPostgreConnection(database,user,password);
+   public static Connection getConnection() throws ClassNotFoundException, SQLException{   
+        //return getMySqlConnection("database","user","password");
+        return getPostgreConnection("database","user","password");
    }
    
-   public Connection getMySqlConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
+   public static Connection getMySqlConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
        String driver = "com.mysql.jdbc.Driver";
        String url = "jdbc:mysql://localhost/3306";
        Class.forName(driver);
        return DriverManager.getConnection(url+"/"+database,user,password);
    }
    
-   public Connection getPostgreConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
+   public static Connection getPostgreConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
        String driver = "org.postgresql.Driver";
        String url = "jdbc:postgresql://localhost/5432";
        Class.forName(driver);
