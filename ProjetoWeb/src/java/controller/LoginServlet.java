@@ -78,11 +78,9 @@ public class LoginServlet extends HttpServlet {
             request.getParameter("senha").equals("")) {
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", "teste");
-            //response.getWriter().println("<p>Logado</p>");
             
             response.sendRedirect("principal.jsp");
            
-            //request.getRequestDispatcher("PostsServlet").forward(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().println("<h1>Invalid user or password</h1>");

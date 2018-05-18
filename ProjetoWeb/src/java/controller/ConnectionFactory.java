@@ -12,26 +12,23 @@ import java.sql.*;
  * @author andrey
  */
 public class ConnectionFactory {
-    Connection conn = null;
-    private String database, user, password;
-    
-   public void setURL(String database, String user, String password){
-       this.database = database;
-       this.user = user;
-       this.password = password;
+       
+   public Connection getConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{   
+        //return getMySqlConnection(database,user,password);
+        return getPostgreConnection(database,user,password);
    }
    
-   public void getMySqlConnection() throws ClassNotFoundException, SQLException{
+   public Connection getMySqlConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
        String driver = "com.mysql.jdbc.Driver";
        String url = "jdbc:mysql://localhost/3306";
        Class.forName(driver);
-       conn = DriverManager.getConnection(url+"/"+this.database,user,password);
+       return DriverManager.getConnection(url+"/"+database,user,password);
    }
    
-   public void getPostgreConnection() throws ClassNotFoundException, SQLException{
+   public Connection getPostgreConnection(String database, String user, String password) throws ClassNotFoundException, SQLException{
        String driver = "org.postgresql.Driver";
        String url = "jdbc:postgresql://localhost/5432";
        Class.forName(driver);
-       conn = DriverManager.getConnection(url+"/"+this.database,user,password);
+       return DriverManager.getConnection(url+"/"+database,user,password);
    }
 }

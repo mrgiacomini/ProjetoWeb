@@ -45,9 +45,6 @@ public class LogoutServlet extends HttpServlet {
             out.println("</html>");
         }
         
-        
-        
-        //request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +61,7 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         
         request.getSession().invalidate();
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("principal.jsp");
     }
 
     /**
