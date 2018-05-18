@@ -27,14 +27,17 @@ public class UserDAO {
             ResultSet r = ps.executeQuery();
             
             if(r.getString("username").equals(username)){
+                conn.close();
                 return true;
             }
+            conn.close();
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return false;
     }
     
