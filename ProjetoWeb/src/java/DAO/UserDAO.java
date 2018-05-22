@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class UserDAO {
-    Connection conn = null;
+    private Connection conn = null;
     
     public boolean buscaUsuario(String username){
         try {
@@ -39,6 +39,9 @@ public class UserDAO {
         }
         
         return false;
+    }
+    
+    public void inserirUsuario(){
     }
     
 }
