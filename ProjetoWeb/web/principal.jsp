@@ -15,27 +15,11 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Gravity</title>
-        <link type="text/css" rel="stylesheet" href="projeto1.css"/>
-    </head>
-    <body>
 
-        <div class="menu">
-            <ul class="font text">
-                <li><a href="" style="text-decoration: none; color: inherit;">HOME</a></li>
-                <li><a href="" style="text-decoration: none; color: inherit;">LAYOUTS</a></li>
-                <% if (request.getSession().getAttribute("logado")!= null) {%>
-                    <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
-                <%} else {%>
-                    <li><a href="login.jsp" style="text-decoration: none; color: inherit;">LOGIN</a></li>
-                <%}%>
-                <li class="bordered"><a href="signup.jsp" style="text-decoration: none; color: inherit;">SIGN UP</a></li>
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="Gravity"/>
+</jsp:include>
 
-            </ul>
-        </div>
         <div class="header">
             <p class="title font text">GRAVITY</p>
             <p class="caption font text minor_text">LOREM IPSUM DOLOR SIT AMET</p>
@@ -48,7 +32,7 @@
             <p class="learn_more font minor_text">LEARN MORE</p>   
             <div class="container2">
                 <div>
-                    <img src="casa_perfil.jpg" class="house_profile"/>
+                    <img src="casa_perfil.jpg" class="profile"/>
                 </div>    
                 <div class="info">
                     <p class="font info_title text">DONEC NEC JUSTO EGET</p>
@@ -62,7 +46,7 @@
                         for (Post p : lista) {
                 %> 
                 <div>
-                    <img src="casa_perfil.jpg" class="house_profile"/>
+                    <img src="casa_perfil.jpg" class="profile"/>
                 </div>      
                 <div class="info">
                     <p class="font info_title text"><%=p.getTitle()%></p>

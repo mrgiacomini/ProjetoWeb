@@ -12,36 +12,55 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.User;
 
 /**
  *
  * @author mathe
  */
 public class UserDAO {
+
     private Connection conn = null;
-    
-    public boolean buscaUsuario(String username){
+
+    public boolean searchUser(String username) {
         try {
             conn = ConnectionFactory.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username from user where name = '"+username+"'");
+            PreparedStatement ps = conn.prepareStatement("SELECT username from tb_user where username = '" + username + "'");
             ResultSet r = ps.executeQuery();
-            
-            if(r.getString("username").equals(username)){
+
+            if (r.next() && r.getString("username").equals(username)) {
                 conn.close();
                 return true;
             }
             conn.close();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
-    
-    public void inserirUsuario(){
+
+    public boolean insertUser(String username) {
+        User user = new User(username);
+        
+        try {
+            conn = ConnectionFactory.getConnection();
+            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_user(username) VALUES (?)");
+            p.setString(1, user.getUsername());
+            p.executeUpdate();
+
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
     }
-    
+
 }

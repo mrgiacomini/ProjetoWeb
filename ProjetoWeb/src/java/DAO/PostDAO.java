@@ -15,7 +15,8 @@ import model.Post;
 public class PostDAO {
     public ArrayList listaPosts(){
         ArrayList<Post> lista = new ArrayList();
-        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextao"));
+        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
+        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
         return lista;
     }
 }

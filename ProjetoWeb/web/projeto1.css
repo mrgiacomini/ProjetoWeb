@@ -39,7 +39,7 @@
     .info_txt{
         padding-right: 200px;
     }
-    .house_profile{
+    .profile{
         float: right
     }
 }
@@ -52,6 +52,9 @@ body{
     width: 400px;
     margin: auto;
     position: relative;
+    
+    display: flex;
+    justify-content: center;
 }
 
 .menu_icon{
@@ -164,8 +167,11 @@ li.bordered{
     color: #595959;
     text-align: center;
 }
+.info{
+    height: 150px;
+}
 
-.house_profile{
+.profile{
     position: relative;
     width: 140px;
     height: 140px;
@@ -194,4 +200,9 @@ li.bordered{
     border-radius: 2px;
     text-align: center;
     border: 1px solid #595959;
+}
+
+.error{
+    color: red; 
+    text-align: center;
 }

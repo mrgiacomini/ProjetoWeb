@@ -5,6 +5,7 @@
  */
 package controller;
 
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class SignUpServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignUpServlet</title>");            
+            out.println("<title>Servlet SignUpServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SignUpServlet at " + request.getContextPath() + "</h1>");
@@ -72,25 +73,29 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String usuario = (String)request.getAttribute("usuario");
-        String senha = (String)request.getAttribute("senha");
-        String repetir_senha = (String)request.getAttribute("repetir_senha");
-        
-        if(senha != repetir_senha){
-            response.getWriter().println("<h1>Senha não corresponde!</h1>");
-        }else{
+
+        String usuario = request.getParameter("usuario");
+        String senha = "";//request.getParameter("senha");
+        String repetir_senha = "";//request.getParameter("repetir_senha");
+
+        UserDAO userDao = new UserDAO();
+
+        if (userDao.searchUser(usuario)) { //consulta no banco se existe o mesmo nome de usuario
+            request.getSession().setAttribute("error", "Usuário já existe!");
+            response.sendRedirect("signup.jsp");
+
+        } else if (senha != repetir_senha) {
+            request.setAttribute("error", "Senha não corresponde!");
+            response.sendRedirect("signup.jsp");
+
+        } else if (userDao.insertUser(usuario)) { //se inseriu no banco, cria a sessão e volta ao home
+
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", usuario);
-            
-            //implementar conexao com banco para inserir usuario
-            
-            
-            
+
             response.sendRedirect("principal.jsp");
         }
-        
-        
+
     }
 
     /**

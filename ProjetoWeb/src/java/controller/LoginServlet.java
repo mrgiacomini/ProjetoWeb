@@ -5,6 +5,7 @@
  */
 package controller;
 
+import DAO.UserDAO;
 import java.io.IOException;
 //import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -74,8 +75,9 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
-        if (request.getParameter("usuario").equals("teste") &&
-            request.getParameter("senha").equals("")) {
+        UserDAO userDao = new UserDAO();
+        
+        if (userDao.searchUser(request.getParameter("usuario"))) {
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", "teste");
             
@@ -83,8 +85,9 @@ public class LoginServlet extends HttpServlet {
            
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().println("<h1>Invalid user or password</h1>");
-            //implementar error page
+            
+            request.getSession().setAttribute("error", "Login Inválido");
+            response.sendRedirect("login.jsp");
         }
         
         
