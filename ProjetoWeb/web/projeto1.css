@@ -52,7 +52,7 @@ body{
     width: 400px;
     margin: auto;
     position: relative;
-    
+    /* deixa menu dinamico e centralizado*/
     display: flex;
     justify-content: center;
 }
@@ -205,4 +205,8 @@ li.bordered{
 .error{
     color: red; 
     text-align: center;
+}
+
+.posts{
+    margin-bottom: 2rem; /* pega em relação a div pai, para limitar o tamanho do div dos 'posts' */
 }
