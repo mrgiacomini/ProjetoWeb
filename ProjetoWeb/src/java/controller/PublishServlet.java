@@ -75,7 +75,16 @@ public class PublishServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO newPost = new PostDAO();
-        
+        /*
+            //IMPLEMENTAR MÉTODOS
+            newPost.loadPosts();
+            //publish new data on DB
+            String title = request.getParameter("title");
+            String caption = request.getParameter("caption");
+            String text = request.getParameter("text");
+            //NÃO SEI CARREGAR O ARQUIVO AINDA
+            newPost.addPostToDB(title,caption,text,image);
+        */
     }
 
     /**
