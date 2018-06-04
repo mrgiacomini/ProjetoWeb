@@ -18,11 +18,11 @@
             <ul class="font text">
                 <li><a href="principal.jsp" style="text-decoration: none; color: inherit;">HOME</a></li>
                 <% if (request.getSession().getAttribute("logado") != null){  //se o usuario esta logado %>
-                    <li><a href="" style="text-decoration: none; color: inherit;">PUBLISH</a></li>
-                    <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
+                <li><a href="publish.jsp" style="text-decoration: none; color: inherit;">PUBLISH</a></li>
+                <li><a href="LogoutServlet" style="text-decoration: none; color: inherit;">LOGOUT</a></li>
                 <%} else {  //se nao estiver logado%>
-                    <li><a href="login.jsp" style="text-decoration: none; color: inherit;">LOGIN</a></li>
-                    <li class="bordered"><a href="signup.jsp" style="text-decoration: none; color: inherit;">SIGN UP</a></li>
+                <li><a href="login.jsp" style="text-decoration: none; color: inherit;">LOGIN</a></li>
+                <li class="bordered"><a href="signup.jsp" style="text-decoration: none; color: inherit;">SIGN UP</a></li>
                 <%}%>
                
             </ul>

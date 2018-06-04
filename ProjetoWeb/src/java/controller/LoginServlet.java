@@ -78,8 +78,8 @@ public class LoginServlet extends HttpServlet {
         UserDAO userDao = new UserDAO();
         
         if (userDao.searchUser(request.getParameter("usuario"))) {
-            request.getSession().setAttribute("logado", new Boolean(true));
-            request.getSession().setAttribute("usuario", "teste");
+            request.getSession().setAttribute("logado", true);
+            request.getSession().setAttribute("usuario", request.getParameter("usuario"));
             
             response.sendRedirect("principal.jsp");
            

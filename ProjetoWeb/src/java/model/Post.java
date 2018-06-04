@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.io.File;
+
 /**
  *
  * @author mathe
@@ -13,6 +15,7 @@ public class Post {
     String title;
     String subtitle;
     String text;
+    File img;    
 
     public Post(String title, String subtitle, String text) {
         this.title = title;
