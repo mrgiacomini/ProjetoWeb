@@ -15,11 +15,11 @@
         <div style="height: 50px; width: 400px; margin: auto; text-align: center; justify-content: center;">
             <form action="PublishServlet" method="POST" enctype="multipart/form-data">
                 <br><br><br><legend>Title</legend>                    
-                <input style="width: 100%" name="titulo" type="text" value="">
+                <input style="width: 100%" name="title" type="text" value="">
                 <legend>Caption</legend>
-                <input style="width: 100%" name="subtitulo" type="text" value="">
+                <input style="width: 100%" name="caption" type="text" value="">
                 <legend>Text</legend>
-                <textarea rows="10" style="width: 100%"></textarea>
+                <textarea name="text" rows="10" style="width: 100%"></textarea>
                 <input type="file" name="upload">
                 <input type="submit" value="Submit">
             </form>
