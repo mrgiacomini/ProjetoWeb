@@ -40,11 +40,6 @@
                     </div>
                 </div> 
 
-                <%  PostDAO postDAO = new PostDAO();
-                    ArrayList<Post> lista = postDAO.listaPosts();
-                    if (lista != null) {
-                        for (Post p : lista) {
-                %> 
                 <div class="posts">
                     <img src="casa_perfil.jpg" class="profile"/>
                     <div class="info">
