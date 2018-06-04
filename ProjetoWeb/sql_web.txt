@@ -1,0 +1,14 @@
+create table tb_user (
+	id SERIAL,
+	username varchar(45),
+	email varchar(100),
+	adress varchar(50),
+	psw varchar(10)	
+);
+
+create table tb_post (
+	id SERIAL,
+	title varchar(250),
+	caption varchar(250),
+	text varchar(500)	
+);

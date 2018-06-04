@@ -13,13 +13,13 @@ import java.io.File;
  */
 public class Post {
     String title;
-    String subtitle;
+    String caption;
     String text;
     File img;    
 
-    public Post(String title, String subtitle, String text) {
+    public Post(String title, String caption, String text) {
         this.title = title;
-        this.subtitle = subtitle;
+        this.caption = caption;
         this.text = text;
     }
 
@@ -31,12 +31,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
+    public String getCaption() {
+        return caption;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public String getText() {

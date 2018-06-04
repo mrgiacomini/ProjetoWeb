@@ -60,7 +60,7 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**
@@ -74,7 +74,21 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String title = request.getParameter("titulo");
+        String caption = request.getParameter("subtitulo");
+        String text = request.getParameter("texto");
+        
         PostDAO newPost = new PostDAO();
+        
+        if(newPost.insertPost(title, caption, text)){
+            response.sendRedirect("principal.jsp");
+        }else{
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            
+            request.getSession().setAttribute("error", "Falha, tente novamente!");
+            response.sendRedirect("publish.jsp");
+        }
         
     }
 

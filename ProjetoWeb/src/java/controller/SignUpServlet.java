@@ -33,18 +33,7 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SignUpServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SignUpServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -88,7 +77,7 @@ public class SignUpServlet extends HttpServlet {
             request.setAttribute("error", "Senha não corresponde!");
             response.sendRedirect("signup.jsp");
 
-        } else if (userDao.insertUser(usuario)) { //se inseriu no banco, cria a sessão e volta ao home
+        } else if (userDao.insertUser(usuario)) { //se inseriu no banco, cria a session e volta ao home
 
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", usuario);

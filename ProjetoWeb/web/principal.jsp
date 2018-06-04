@@ -22,14 +22,21 @@
 
         <div class="header">
             <p class="title font text">GRAVITY</p>
-            <p class="caption font text minor_text">LOREM IPSUM DOLOR SIT AMET</p>
+            <p class="caption font text minor_text">O NOSSO BLOG</p>
             <img src="menu_icon.png" class="menu_icon"/>
         </div>
         <div class="container">
             <img class="backImg" src="landscape.jpg" alt="landscape"/>
-            <p class="title1 font">MAGNA SED IPSUM DOLOR DOLOR</p>
-            <p class="caption1 font minor_text">SED VEROEROS LOREM MAGNA TEMPUS TEMPUS ET AMET LOREM CURSUS.</p>
-            <p class="learn_more font minor_text">LEARN MORE</p>   
+            
+            <% if (request.getSession().getAttribute("logado") != null){  //se o usuario esta logado %>
+                <p class="title1 font"><%= request.getSession().getAttribute("usuario").toString().toUpperCase() %></p>
+                <p class="caption1 font minor_text">SEJA BEM VINDO!</p>
+                <p class="learn_more font minor_text">EDITAR PERFIL</p>
+            <%}else{%>
+                <p class="title1 font">FAÇA LOGIN OU CADASTRE-SE!</p>
+                <p class="caption1 font minor_text">FAÇA PUBLICAÇÕES EM NOSSO BLOG.</p>
+            <%}%>
+               
             <div class="container2">
                 <div class="posts">
                     <img src="casa_perfil.jpg" class="profile"/>
@@ -41,7 +48,7 @@
                 </div> 
 
                 <%  PostDAO postDAO = new PostDAO();
-                    ArrayList<Post> lista = postDAO.listaPosts();
+                    ArrayList<Post> lista = postDAO.listPosts();
                     if (lista != null) {
                         for (Post p : lista) {
                 %> 
@@ -49,7 +56,7 @@
                     <img src="casa_perfil.jpg" class="profile"/>
                     <div class="info">
                         <p class="font info_title text"><%=p.getTitle()%></p>
-                        <p class="font info_caption minor_text"><%=p.getSubtitle()%></p>
+                        <p class="font info_caption minor_text"><%=p.getCaption()%></p>
                         <p class="font info_txt"><%=p.getText()%></p>
                     </div>
                 </div>

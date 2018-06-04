@@ -5,12 +5,17 @@
  */
 package DAO;
 
+import controller.ConnectionFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,12 +26,51 @@ import model.Post;
  * @author mathe
  */
 public class PostDAO {
-    public ArrayList listaPosts(){
+    
+    private Connection conn = null;
+    
+    public ArrayList listPosts(){
         ArrayList<Post> lista = new ArrayList();
-        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
-        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
-        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
+         try {
+            conn = ConnectionFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post order by id DESC");
+            ResultSet r = ps.executeQuery();
+            if (r.next()) {
+                lista.add(new Post(r.getString("title"),r.getString("caption"),r.getString("text")));
+            }
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
+//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
+//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
         return lista;
+    }
+    
+    public boolean insertPost(String title, String caption, String text){
+        Post post = new Post(title, caption, text);
+        
+        try {
+            conn = ConnectionFactory.getConnection();
+            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_post(title) VALUES (?)");
+            p.setString(1, post.getTitle());
+//            p.setString(2, post.getCaption());
+//            p.setString(3, post.getText());
+            p.executeUpdate();
+
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
     }
     
     public void upload(String folder, String fileName, InputStream loadedFile) throws FileNotFoundException{
