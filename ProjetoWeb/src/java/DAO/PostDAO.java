@@ -29,6 +29,19 @@ public class PostDAO {
         return lista;
     }
     
+    public ArrayList loadPosts(){
+        ArrayList<Post> posts = new ArrayList();
+        int i = 0;
+        //estabelecer conexão
+        //da conexão, extrair os dados
+        PreparedStatement p = connection.prepareStatement("SELECT * FROM posts");
+        ResultSet r = p.executeQuery();
+        while(r.next()){
+            /*posts[i] = r.<A FUNÇÃO QUE VAI RETORNAR O OBJETO POST INTEIRO>();*/
+        }
+        return posts;
+    }
+    
     public void upload(String folder, String fileName, InputStream loadedFile) throws FileNotFoundException{
         String path = folder+"/"+fileName;
         File newFile = new File(path);
