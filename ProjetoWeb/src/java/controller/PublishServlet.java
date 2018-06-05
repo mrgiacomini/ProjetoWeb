@@ -7,12 +7,16 @@ package controller;
 
 import DAO.PostDAO;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @WebServlet(name = "PublishServlet", urlPatterns = {"/PublishServlet"})
+@MultipartConfig(maxFileSize = 16177215) 
 public class PublishServlet extends HttpServlet {
 
     /**
@@ -74,11 +79,11 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String title = request.getParameter("titulo");
-        String caption = request.getParameter("subtitulo");
-        String text = request.getParameter("texto");
-        
+                
+        String title = request.getParameter("title");
+        String caption = request.getParameter("caption");
+        String text = request.getParameter("text");
+                
         PostDAO newPost = new PostDAO();
         
         if(newPost.insertPost(title, caption, text)){
@@ -86,7 +91,7 @@ public class PublishServlet extends HttpServlet {
         }else{
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             
-            request.getSession().setAttribute("error", "Falha, tente novamente!");
+            request.getSession().setAttribute("error", "Falha em publicar, tente novamente!");
             response.sendRedirect("publish.jsp");
         }
         

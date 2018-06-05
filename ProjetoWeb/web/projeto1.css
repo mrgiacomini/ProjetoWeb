@@ -89,6 +89,7 @@ body{
     font-family: 'Varela Round', sans-serif;
 }
 
+
 .minor_text{
     font-size: 13px;
 }
@@ -208,5 +209,5 @@ li.bordered{
 }
 
 .posts{
-    margin-bottom: 2rem; /* pega em relação a div pai, para limitar o tamanho do div dos 'posts' */
+    margin-bottom: 5rem; /* pega em relação a div pai, para limitar o tamanho do div dos 'posts' */
 }

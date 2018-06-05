@@ -64,20 +64,22 @@ public class SignUpServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String usuario = request.getParameter("usuario");
-        String senha = "";//request.getParameter("senha");
-        String repetir_senha = "";//request.getParameter("repetir_senha");
+        String email = request.getParameter("email");
+        String endereco = request.getParameter("endereco");
+        String senha = request.getParameter("senha");
+        String repetir_senha = request.getParameter("repetir_senha");
 
         UserDAO userDao = new UserDAO();
 
         if (userDao.searchUser(usuario)) { //consulta no banco se existe o mesmo nome de usuario
             request.getSession().setAttribute("error", "Usuário já existe!");
             response.sendRedirect("signup.jsp");
-
-        } else if (senha != repetir_senha) {
-            request.setAttribute("error", "Senha não corresponde!");
+       
+        } else if (!senha.equals(repetir_senha)) {
+            request.getSession().setAttribute("error", "Senha não corresponde!");
             response.sendRedirect("signup.jsp");
 
-        } else if (userDao.insertUser(usuario)) { //se inseriu no banco, cria a session e volta ao home
+        } else if (userDao.insertUser(usuario, email, endereco, senha)) { //se inseriu no banco, cria a session e volta ao home
 
             request.getSession().setAttribute("logado", new Boolean(true));
             request.getSession().setAttribute("usuario", usuario);

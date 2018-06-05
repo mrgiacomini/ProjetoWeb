@@ -6,20 +6,34 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%if(request.getSession().getAttribute("logado")==null){
+            response.sendRedirect("principal.jsp");
+        }
+%>
+
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Edit | New content"/>
 </jsp:include>
-
+                
         <div style="height: 50px; width: 400px; margin: auto; text-align: center; justify-content: center;">
-            <form action="PublishServlet" method="post" id="publishform" ><!--enctype="multipart/form-data" >-->
+                   
+            <form action="PublishServlet" method="post" id="publishform"  enctype="multipart/form-data">
+                <br><br><br>
+                <legend class="title font text">New Content</legend>
+                
                 <br><br><br><legend>Title</legend>                    
-                <input style="width: 100%" name="titulo" type="text" value="">
+                <input style="width: 100%" name="title" type="text" value="">
+                <br><br>
                 <legend>Caption</legend>
-                <input style="width: 100%" name="subtitulo" type="text" value="">
+                <input style="width: 100%" name="caption" type="text" value="">
+                <br><br>
                 <legend>Text</legend>
-                <textarea name="texto" rows="10" style="width: 100%"></textarea>
-                <input type="file" name="upload">
-                <input type="submit" value="Submit">
+                <textarea name="text" form="publishform" rows="10" style="width: 100%"></textarea>
+                <br><br>
+                <legend>Image/Video</legend>
+                <input type="file" name="upload"> 
+                <br><br><br>
+                <input type="submit" value="Publish">
                 
             </form>
             

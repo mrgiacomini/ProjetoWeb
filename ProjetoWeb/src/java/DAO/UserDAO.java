@@ -43,13 +43,17 @@ public class UserDAO {
         return false;
     }
 
-    public boolean insertUser(String username) {
-        User user = new User(username);
+    public boolean insertUser(String username, String email, String adress, String password) {
+        User user = new User(username, email, adress, password);
         
         try {
             conn = ConnectionFactory.getConnection();
-            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_user(username) VALUES (?)");
+            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_user(username, email, adress, psw) "
+                                                        + "VALUES (?,?,?,?)");
             p.setString(1, user.getUsername());
+            p.setString(2, user.getEmail());
+            p.setString(3, user.getAdress());
+            p.setString(4, user.getPassword());
             p.executeUpdate();
 
             conn.close();

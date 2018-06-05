@@ -33,10 +33,10 @@ public class PostDAO {
         ArrayList<Post> lista = new ArrayList();
          try {
             conn = ConnectionFactory.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post order by id DESC");
+            PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post");
             ResultSet r = ps.executeQuery();
-            if (r.next()) {
-                lista.add(new Post(r.getString("title"),r.getString("caption"),r.getString("text")));
+            while(r.next()) {
+               lista.add(new Post(r.getString("title"), r.getString("caption"), r.getString("text")));
             }
             conn.close();
         } catch (ClassNotFoundException ex) {
@@ -45,9 +45,6 @@ public class PostDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
-//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
-//        lista.add(new Post("Titulo1", "Subtitulo", "textao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextaotextao\ntextao\ntextao"));
         return lista;
     }
     
@@ -56,12 +53,14 @@ public class PostDAO {
         
         try {
             conn = ConnectionFactory.getConnection();
-            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_post(title) VALUES (?)");
+            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_post(title, caption, text) "
+                                                            + "VALUES (?,?,?)");
             p.setString(1, post.getTitle());
-//            p.setString(2, post.getCaption());
-//            p.setString(3, post.getText());
+            p.setString(2, post.getCaption());
+            p.setString(3, post.getText());
+           
             p.executeUpdate();
-
+            
             conn.close();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,6 +71,7 @@ public class PostDAO {
         }
         return true;
     }
+    
     
     public void upload(String folder, String fileName, InputStream loadedFile) throws FileNotFoundException{
         String path = folder+"/"+fileName;

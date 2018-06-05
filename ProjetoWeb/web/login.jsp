@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%if(request.getSession().getAttribute("logado")!=null){
+            response.sendRedirect("principal.jsp");
+        }
+%>
+
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Gravity | Login"/>
 </jsp:include>

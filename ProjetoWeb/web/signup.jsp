@@ -16,10 +16,16 @@
         Nome de usuário:<br>
         <input type="text" name="usuario" value="">
         <br><br>
-        Senha:<br>
+        Email:<br>
+        <input type="text" name="email" value="">
+        <br><br>
+        Endereço:<br>
+        <input type="text" name="endereco" value="">
+        <br><br>
+        Senha: (6 dígitos)<br>
         <input type="password" name="senha" value="">
         <br><br>
-        Repetir Senha:<br>
+        Repetir senha:<br>
         <input type="password" name="repetir_senha" value=""><br><br>
         <input type="submit" value="Cadastrar">
 

@@ -15,7 +15,7 @@ public class User {
     private String password;
     private String adress;
 
-    public User(String username, String email, String password, String adress) {
+    public User(String username, String email, String adress,  String password) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -25,6 +25,8 @@ public class User {
     public User(String username) {
         this.username = username;
     }
+    
+    public User(){}
         
     public String getUsername() {
         return username;

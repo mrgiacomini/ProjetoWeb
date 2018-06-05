@@ -1,5 +1,5 @@
 create table tb_user (
-	id SERIAL,
+	id_user SERIAL,
 	username varchar(45),
 	email varchar(100),
 	adress varchar(50),
@@ -7,7 +7,7 @@ create table tb_user (
 );
 
 create table tb_post (
-	id SERIAL,
+	id_post SERIAL,
 	title varchar(250),
 	caption varchar(250),
 	text varchar(500)	

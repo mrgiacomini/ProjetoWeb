@@ -38,17 +38,10 @@
             <%}%>
                
             <div class="container2">
-                <div class="posts">
-                    <img src="casa_perfil.jpg" class="profile"/>
-                    <div class="info">
-                        <p class="font info_title text">DONEC NEC JUSTO EGET</p>
-                        <p class="font info_caption minor_text">ALIQUAM COMMODO SED MAGNA</p>
-                        <p class="font info_txt">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                    </div>
-                </div> 
 
                 <%  PostDAO postDAO = new PostDAO();
                     ArrayList<Post> lista = postDAO.listPosts();
+                    
                     if (lista != null) {
                         for (Post p : lista) {
                 %> 
@@ -59,13 +52,18 @@
                         <p class="font info_caption minor_text"><%=p.getCaption()%></p>
                         <p class="font info_txt"><%=p.getText()%></p>
                     </div>
+                    <% if (request.getSession().getAttribute("logado") != null){  //se o usuario esta logado %>
+                        <div style="position: absolute;">
+                            <a href="EditPostServlet" style="text-decoration: underline; color: inherit;">editar</a>
+                            <a href="DeletePostServlet" style="text-decoration: underline; color: inherit;">excluir</a>
+                        </div>
+                    <%}%>
                 </div>
                 <%    }
                     }
                 %>
 
-
-                <p class="learn_more1 font minor_text">LEARN MORE</p>
+<!--                <p class="learn_more1 font minor_text">LEARN MORE</p> -->
             </div>
 
         </div>
