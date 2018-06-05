@@ -10,7 +10,7 @@
 
 <%  // if(request.getSession().getAttribute("logado")==null){
     //        response.sendRedirect("principal.jsp");
-    //}//ta gerando erro     
+    //}ta gerando erro     
 %>
 
 <jsp:include page="header.jsp">
