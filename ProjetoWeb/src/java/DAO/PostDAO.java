@@ -72,6 +72,9 @@ public class PostDAO {
         return true;
     }
     
+       
+    
+    
     
     public void upload(String folder, String fileName, InputStream loadedFile) throws FileNotFoundException{
         String path = folder+"/"+fileName;

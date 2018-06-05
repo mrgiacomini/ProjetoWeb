@@ -15,14 +15,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.User;
 
 /**
  *
  * @author mathe
  */
-@WebServlet(name = "SignUpServlet", urlPatterns = {"/SignUpServlet"})
-public class SignUpServlet extends HttpServlet {
+@WebServlet(name = "EditProfileServlet", urlPatterns = {"/EditProfileServlet"})
+public class EditProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +34,6 @@ public class SignUpServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
     }
 
@@ -65,7 +63,7 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String usuario = request.getParameter("usuario");
         String email = request.getParameter("email");
         String endereco = request.getParameter("endereco");
@@ -73,46 +71,35 @@ public class SignUpServlet extends HttpServlet {
         String repetir_senha = request.getParameter("repetir_senha");
 
         UserDAO userDao = new UserDAO();
-        if(usuario.equals("")){
-            request.getSession().setAttribute("error", "Campo suário está vazio!");
-            response.sendRedirect("signup.jsp");
-            
-        }else if(userDao.searchUser(usuario)) { //consulta no banco se existe o mesmo nome de usuario
-            request.getSession().setAttribute("error", "Usuário já cadastrado!");
-            response.sendRedirect("signup.jsp");
         
-        }else if(email.equals("")){
-            request.getSession().setAttribute("error", "Campo email está vazio!");
-            response.sendRedirect("signup.jsp");
+        if(usuario.equals("")){
+            request.getSession().setAttribute("error", "Campo usuário está vazio!");
+            response.sendRedirect("editProfile.jsp");
             
-        }else if(userDao.searchEmail(email)){
-            request.getSession().setAttribute("error", "Email já cadastrado!");
-            response.sendRedirect("signup.jsp");
-          
+        }else if(userDao.searchUser(usuario) && !request.getSession().getAttribute("usuario").equals(usuario)) { //consulta no banco se existe o mesmo nome de usuario
+            request.getSession().setAttribute("error", "Usuário já cadastrado!");
+            response.sendRedirect("editProfile.jsp");
+        
         }else if(!validEmail(email)){
             request.getSession().setAttribute("error", "Email inválido!");
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("editProfile.jsp");
             
         }else if(endereco.equals("")){
             request.getSession().setAttribute("error", "Campo endereço está vazio!");
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("editProfile.jsp");
         
-        }else if(senha.equals("") || repetir_senha.equals("")){
-            request.getSession().setAttribute("error", "Campo senha está vazio!");
-            response.sendRedirect("signup.jsp");
-         
-        }else if(senha.length() != 6){
+        
+        }else if(!senha.equals("") && senha.length() != 6){
             request.getSession().setAttribute("error", "Senha tem que ser de 6 dígitos!");
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("editProfile.jsp");
         
         } else if (!senha.equals(repetir_senha)) {
             request.getSession().setAttribute("error", "Senha não corresponde!");
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("editProfile.jsp");
 
-        } else if (userDao.insertUser(usuario, email, endereco, senha)) { //se inseriu no banco, cria a session e volta ao home
-            request.getSession().setAttribute("logado", true);
+        } else if (userDao.alterUser(usuario, email, endereco, senha)) { //se inseriu no banco, cria a session e volta ao home
             request.getSession().setAttribute("usuario", usuario);
-
+            
             response.sendRedirect("principal.jsp");
         }
 
