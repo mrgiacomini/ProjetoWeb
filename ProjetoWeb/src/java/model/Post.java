@@ -13,11 +13,18 @@ public class Post {
     String title;
     String caption;
     String text;  
+    String file;
+    String username;
+    String userFile;
 
-    public Post(String title, String caption, String text) {
+    
+    public Post(String title, String caption, String text, String file, String username, String userFile) {
         this.title = title;
         this.caption = caption;
         this.text = text;
+        this.file = file;
+        this.username = username;
+        this.userFile = userFile;
     }
     
     public Post(){}
@@ -46,6 +53,29 @@ public class Post {
         this.text = text;
     }
 
+    public String getFile() {
+        return file;
+    }
 
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+   
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUserFile() {
+        return userFile;
+    }
+
+    public void setUserFile(String userFile) {
+        this.userFile = userFile;
+    }
     
 }

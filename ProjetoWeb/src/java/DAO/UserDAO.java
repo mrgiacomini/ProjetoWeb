@@ -18,13 +18,13 @@ import model.User;
  *
  * @author mathe
  */
-public class UserDAO {
+public class UserDAO extends ConnectionFactory{
 
     private Connection conn = null;
 
     public boolean searchUser(String username) {
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username from tb_user where username = '" 
                                                             + username + "'");
             ResultSet r = ps.executeQuery();
@@ -46,7 +46,7 @@ public class UserDAO {
     
     public boolean searchEmail(String email) {
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username from tb_user where email = '" 
                                                             + email + "'");
             ResultSet r = ps.executeQuery();
@@ -66,19 +66,25 @@ public class UserDAO {
         return false;
     }
 
-    public boolean insertUser(String username, String email, String adress, String password) {
-        User user = new User(username, email, adress, password);
+    public boolean insertUser(String username, String email, String adress, String password, String filePath) {
+        
+        User user;
         
         try {
-            conn = ConnectionFactory.getConnection();
-            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_user(username, email, adress, psw) "
-                                                        + "VALUES (?,?,?,?)");
+            conn = getConnection();
+            
+            user = new User(username, email, adress, password, filePath);
+         
+            PreparedStatement p = conn.prepareStatement("INSERT INTO tb_user(username, email, adress, psw, file_path) "
+                                                        + "VALUES (?,?,?,?,?)");
             p.setString(1, user.getUsername());
             p.setString(2, user.getEmail());
             p.setString(3, user.getAdress());
             p.setString(4, user.getPassword());
+            p.setString(5, filePath);
             p.executeUpdate();
-
+            
+            
             conn.close();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,7 +99,7 @@ public class UserDAO {
     public User getUser(String username) {
         User user = null;
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT * from tb_user WHERE username = '" 
                                                             + username + "'");
             ResultSet r = ps.executeQuery();
@@ -116,7 +122,7 @@ public class UserDAO {
         User user = new User(username, email, adress, password);
         
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             
             if(password.equals("")){ //se o campo estiver vazio nao altera campo senha
                 PreparedStatement p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
@@ -153,7 +159,7 @@ public class UserDAO {
     public boolean deleteUser(String username) {
         
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             PreparedStatement p = conn.prepareStatement("DELETE FROM tb_user WHERE username='"+username+"'");
             p.executeUpdate();
 

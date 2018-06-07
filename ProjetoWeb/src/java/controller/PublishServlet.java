@@ -6,10 +6,15 @@
 package controller;
 
 import DAO.PostDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,15 +22,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import model.User;
 
 /**
  *
  * @author andrey
  */
-
 @WebServlet(name = "PublishServlet", urlPatterns = {"/PublishServlet"})
-@MultipartConfig(maxFileSize = 16177215) 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50)
 public class PublishServlet extends HttpServlet {
+
+    int id = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +53,7 @@ public class PublishServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PublishServlet</title>");            
+            out.println("<title>Servlet PublishServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet PublishServlet at " + request.getContextPath() + "</h1>");
@@ -65,7 +74,7 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -79,22 +88,40 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                
+
         String title = request.getParameter("title");
         String caption = request.getParameter("caption");
         String text = request.getParameter("text");
-                
+
         PostDAO newPost = new PostDAO();
-        
-        if(newPost.insertPost(title, caption, text)){
+
+        Part part = request.getPart("upload");
+        String images_path = request.getServletContext().getRealPath("/uploads"); //caminho local
+        String filePath;
+        String name = UUID.randomUUID().toString(); //nome aletorio para armazenamento
+        String str[] = part.getContentType().split("/");
+        String type = str[1];                           //ex: image/png returns png
+
+        filePath = "uploads/" + name + "." + type; //caminho no servidor
+
+        InputStream in = part.getInputStream();
+        Files.copy(in, Paths.get(images_path + "/" + name + "." + type), StandardCopyOption.REPLACE_EXISTING);
+
+        part.delete();
+       
+        if (type.equals("octet-stream")) {
+            filePath = "";
+        }
+
+        if (newPost.insertPost(title, caption, text, filePath, request.getSession().getAttribute("usuario").toString())) {
             response.sendRedirect("principal.jsp");
-        }else{
+        } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            
+
             request.getSession().setAttribute("error", "Falha em publicar, tente novamente!");
             response.sendRedirect("publish.jsp");
         }
-        
+
     }
 
     /**

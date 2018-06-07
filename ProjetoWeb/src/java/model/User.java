@@ -10,10 +10,20 @@ package model;
  * @author mathe
  */
 public class User {
+    private String id;
     private String username;
     private String email;
     private String password;
     private String adress;
+    private String file;
+
+    public User(String username, String email, String adress, String password, String file) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.adress = adress;
+        this.file = file;
+    }
 
     public User(String username, String email, String adress,  String password) {
         this.username = username;
@@ -44,5 +54,15 @@ public class User {
         return adress;
     }
     
+    
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+    
+
     
 }

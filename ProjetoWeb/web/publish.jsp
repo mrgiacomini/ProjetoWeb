@@ -6,9 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%if(request.getSession().getAttribute("logado")==null){
-            response.sendRedirect("principal.jsp");
-        }
+<%//if(request.getSession().getAttribute("logado")==null){
+  //          response.sendRedirect("principal.jsp");
+  //      }
 %>
 
 <jsp:include page="header.jsp">
@@ -30,8 +30,8 @@
                 <legend>Text</legend>
                 <textarea name="text" form="publishform" rows="10" style="width: 100%"></textarea>
                 <br><br>
-                <legend>Image/Video</legend>
-                <input type="file" name="upload"> 
+                <legend>Image</legend>
+                <input type="file" accept="image/*,video/*,audio/*" name="upload"> 
                 <br><br><br>
                 <input type="submit" value="Publish">
                 

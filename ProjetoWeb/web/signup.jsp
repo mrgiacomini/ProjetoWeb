@@ -16,7 +16,7 @@
 </jsp:include>
 
 <div class="header" style="height: 60px">
-    <form action="SignUpServlet" method="POST">
+    <form action="SignUpServlet" method="POST" enctype="multipart/form-data">
         <legend class="title font text">Cadastro</legend><br><br>
         Nome de usuário:*<br>
         <input type="text" name="usuario" value="">
@@ -34,6 +34,12 @@
         <input type="password" name="repetir_senha" value=""><br><br>
         
         * Campos obrigatórios.<br><br>
+        
+        <br>
+        <legend>Foto</legend><br>
+        <input type="file" accept="image/*" name="upload"> 
+        <br><br><br>
+                
         <input type="submit" value="Cadastrar">
             
         <% String error = (String) request.getSession().getAttribute("error");

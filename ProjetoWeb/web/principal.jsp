@@ -41,19 +41,29 @@
 
                 <%  PostDAO postDAO = new PostDAO();
                     ArrayList<Post> lista = postDAO.listPosts();
-                    
+                    int i=0;
                     if (lista != null) {
                         for (Post p : lista) {
                 %> 
+                <%if(i>0){%>
+                    <hr style=" transform: rotate(-90); width: auto; "> 
+                <%}%>
+                
                 <div class="posts">
-                    <img src="casa_perfil.jpg" class="profile"/>
+                    <img src="<%=p.getUserFile()%>" class="profile"/>
+                    <p class="font"><%=p.getUsername()%></p>  <!-- posicionar no css -->                  
+                    
                     <div class="info">
                         <p class="font info_title text"><%=p.getTitle()%></p>
                         <p class="font info_caption minor_text"><%=p.getCaption()%></p>
                         <p class="font info_txt"><%=p.getText()%></p>
+                        <%if(!p.getFile().equals("")){%>
+                            <img src="<%=p.getFile()%>" width="400"></img>
+                        <%}%>
                     </div>
+                    
                 </div>
-                <%    }
+                <%    i++;}
                     }
                 %>
 

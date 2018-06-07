@@ -4,11 +4,64 @@ create table tb_user (
 	email varchar(100),
 	adress varchar(50),
 	psw varchar(10)	
+
 );
 
 create table tb_post (
 	id_post SERIAL,
 	title varchar(250),
 	caption varchar(250),
-	text varchar(500)	
+	text varchar(500),
+	file text	
 );
+
+-----------------------------------------
+create table tb_media(
+	id_media SERIAL NOT NULL,
+	path TEXT NOT NULL,
+	PRIMARY KEY(id_media)
+);
+
+create table tb_user(
+	id_user SERIAL,
+  
+	username VARCHAR(45) NOT NULL,
+ 
+	email VARCHAR(200) NOT NULL,
+  
+	adress VARCHAR(200) NOT NULL,
+  
+	psw VARCHAR(10) NOT NULL,
+  
+	fk_id_media INT NOT NULL,
+  
+	PRIMARY KEY (id_user, fk_id_media),
+ 
+ 	CONSTRAINT fk_tb_user_tb_media
+ FOREIGN KEY (fk_id_media)
+ REFERENCES tb_media(id_media)
+ ON DELETE NO ACTION
+ ON UPDATE NO ACTION
+);
+
+create table tb_post(
+	id_post SERIAL,
+	title varchar(250) NOT NULL,
+	caption varchar(250),
+	text TEXT NOT NULL,
+	fk_id_media INT,
+	fk_id_user INT,
+	fk_tb_user_id_media INT,
+	PRIMARY KEY(id_post, fk_id_user, fk_tb_user_id_media),
+	CONSTRAINT fk_id_media1
+ FOREIGN KEY (fk_id_media)
+ REFERENCES tb_media(id_media)
+ ON DELETE NO ACTION
+ ON UPDATE NO ACTION,	
+	CONSTRAINT fk_tb_post_tb_user1
+ FOREIGN KEY (fk_id_user,fk_tb_user_id_media) REFERENCES tb_user(id_user,fk_id_media) ON DELETE NO ACTION
+ ON UPDATE NO ACTION
+);
+
+
+
