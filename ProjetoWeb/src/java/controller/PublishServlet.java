@@ -7,6 +7,8 @@ package controller;
 
 import DAO.PostDAO;
 import DAO.UserDAO;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -74,7 +76,7 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.sendRedirect("principal.jsp");
     }
 
     /**
@@ -96,21 +98,22 @@ public class PublishServlet extends HttpServlet {
         PostDAO newPost = new PostDAO();
 
         Part part = request.getPart("upload");
-        String images_path = request.getServletContext().getRealPath("/uploads"); //caminho local
-        String filePath;
-        String name = UUID.randomUUID().toString(); //nome aletorio para armazenamento
+        String images_path = request.getServletContext().getRealPath("/uploads");
+
+        String fileName = UUID.randomUUID().toString(); //nome aletorio para armazenamento
         String str[] = part.getContentType().split("/");
         String type = str[1];                           //ex: image/png returns png
 
-        filePath = "uploads/" + name + "." + type; //caminho no servidor
+        String filePath = "";
+        if (!type.equals("octet-stream")) {
+            filePath = "uploads/" + fileName + "." + type; //caminho no servidor
 
-        InputStream in = part.getInputStream();
-        Files.copy(in, Paths.get(images_path + "/" + name + "." + type), StandardCopyOption.REPLACE_EXISTING);
+            InputStream in = part.getInputStream();
+            Files.copy(in, Paths.get(images_path + "/" + fileName + "." + type), StandardCopyOption.REPLACE_EXISTING);
+            //Files.copy(in, Paths.get("/uploads/" + name + "." + type), StandardCopyOption.REPLACE_EXISTING);
+            //part.write(filePath);
+            part.delete();
 
-        part.delete();
-       
-        if (type.equals("octet-stream")) {
-            filePath = "";
         }
 
         if (newPost.insertPost(title, caption, text, filePath, request.getSession().getAttribute("usuario").toString())) {

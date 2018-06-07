@@ -212,3 +212,16 @@ li.bordered{
 .posts{
     margin-bottom: 7em; /* pega em relação a div pai, para limitar o tamanho do div dos 'posts' */
 }
+
+.btn_delete {
+    border: 1px solid;
+    padding: 2px;
+    display: inline;
+    background: none;
+    text-decoration: none;
+    color: inherit;
+    float:right;
+}
+button:hover {
+    cursor: pointer;
+}

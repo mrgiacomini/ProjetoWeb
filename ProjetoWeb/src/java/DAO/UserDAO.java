@@ -118,33 +118,52 @@ public class UserDAO extends ConnectionFactory{
         return user;
     }
     
-    public boolean alterUser(String username, String email, String adress, String password) {
-        User user = new User(username, email, adress, password);
+    public boolean alterUser(String username, String email, String adress, String password, String filePath) {
+        User user = new User(username, email, adress, password, filePath);
         
         try {
             conn = getConnection();
-            
-            if(password.equals("")){ //se o campo estiver vazio nao altera campo senha
-                PreparedStatement p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
-                                                            + "adress = ? WHERE username = '"+username+"'");
+            PreparedStatement p;
+                    
+            if(password.equals("") && filePath.equals("")){ //NAO altera campo senha e file
+                p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
+                                           + "adress = ? WHERE username = '"+username+"'");
 
                 p.setString(1, user.getUsername());
                 p.setString(2, user.getEmail());
                 p.setString(3, user.getAdress());    
                 
-                p.executeUpdate();
+            }else if(password.equals("") && !filePath.equals("")){ //altera o file
+                p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
+                                           + "adress = ?, file_path = ? WHERE username = '"+username+"'");
+
+                p.setString(1, user.getUsername());
+                p.setString(2, user.getEmail());
+                p.setString(3, user.getAdress());    
+                p.setString(4, user.getFile());    
                 
-            }else{
-                PreparedStatement p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
-                                                            + "adress = ?, psw = ? WHERE username = '"+username+"'");
+            }else if(!password.equals("") && filePath.equals("")){ //altera a senha
+                p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "
+                                           + "adress = ?, psw = ? WHERE username = '"+username+"'");
+
+                p.setString(1, user.getUsername());
+                p.setString(2, user.getEmail());
+                p.setString(3, user.getAdress());
+                p.setString(4, user.getPassword());
+                
+            }else{    //altera tudo
+                p = conn.prepareStatement("UPDATE tb_user SET username = ?, email = ?, "  
+                                          + "adress = ?, psw = ?, , file_path = ? WHERE username = '"+username+"'");
 
                 p.setString(1, user.getUsername());
                 p.setString(2, user.getEmail());
                 p.setString(3, user.getAdress());  
                 p.setString(4, user.getPassword());
-                
-                p.executeUpdate();
+                p.setString(4, user.getFile());
+
             }    
+            
+            p.executeUpdate();
             conn.close();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,6 +6,7 @@
 package DAO;
 
 import controller.ConnectionFactory;
+import static controller.ConnectionFactory.getConnection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,7 +42,7 @@ public class PostDAO {
             PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post ORDER BY id_post DESC");
             ResultSet r = ps.executeQuery();
             while(r.next()) {
-               lista.add(new Post(r.getString("title"), r.getString("caption"),
+               lista.add(new Post(r.getInt("id_post"), r.getString("title"), r.getString("caption"),
                        r.getString("text"), r.getString("file_path"), r.getString("username"), r.getString("user_file")));
             }
             conn.close();
@@ -90,5 +91,22 @@ public class PostDAO {
         return true;
     }
     
+    public boolean deletePost(int id) {
+        
+        try {
+            conn = getConnection();
+            PreparedStatement p = conn.prepareStatement("DELETE FROM tb_post WHERE id_post='"+id+"'");
+            p.executeUpdate();
+
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
     
 }

@@ -5,11 +5,10 @@
  */
 package controller;
 
+import DAO.PostDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mathe
  */
-@WebServlet(name = "EditProfileServlet", urlPatterns = {"/EditProfileServlet"})
-public class EditProfileServlet extends HttpServlet {
+@WebServlet(name = "DeletePostServlet", urlPatterns = {"/DeletePostServlet"})
+public class DeletePostServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,7 +48,7 @@ public class EditProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("principal.jsp");
     }
 
     /**
@@ -64,52 +63,14 @@ public class EditProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String usuario = request.getParameter("usuario");
-        String email = request.getParameter("email");
-        String endereco = request.getParameter("endereco");
-        String senha = request.getParameter("senha");
-        String repetir_senha = request.getParameter("repetir_senha");
-
-        UserDAO userDao = new UserDAO();
+        PostDAO postDao = new PostDAO();
         
-        if(usuario.equals("")){
-            request.getSession().setAttribute("error", "Campo usuário está vazio!");
-            response.sendRedirect("editProfile.jsp");
-            
-        }else if(userDao.searchUser(usuario) && !request.getSession().getAttribute("usuario").equals(usuario)) { //consulta no banco se existe o mesmo nome de usuario
-            request.getSession().setAttribute("error", "Usuário já cadastrado!");
-            response.sendRedirect("editProfile.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
         
-        }else if(!validEmail(email)){
-            request.getSession().setAttribute("error", "Email inválido!");
-            response.sendRedirect("editProfile.jsp");
-            
-        }else if(endereco.equals("")){
-            request.getSession().setAttribute("error", "Campo endereço está vazio!");
-            response.sendRedirect("editProfile.jsp");
-        
-        
-        }else if(!senha.equals("") && senha.length() != 6){
-            request.getSession().setAttribute("error", "Senha tem que ser de 6 dígitos!");
-            response.sendRedirect("editProfile.jsp");
-        
-        } else if (!senha.equals(repetir_senha)) {
-            request.getSession().setAttribute("error", "Senha não corresponde!");
-            response.sendRedirect("editProfile.jsp");
-
-        } else if (userDao.alterUser(usuario, email, endereco, senha)) { //se inseriu no banco, cria a session e volta ao home
-            request.getSession().setAttribute("usuario", usuario);
-            
+        if(postDao.deletePost(id)){
+            request.getSession().setAttribute("error", "Erro, tente novamente!");
             response.sendRedirect("principal.jsp");
         }
-
-    }
-    
-    private boolean validEmail(String email){
-        Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-        Matcher m = p.matcher(email);
-
-	return m.matches(); 
     }
 
     /**

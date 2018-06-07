@@ -10,6 +10,7 @@ package model;
  * @author mathe
  */
 public class Post {
+    int id;
     String title;
     String caption;
     String text;  
@@ -26,6 +27,17 @@ public class Post {
         this.username = username;
         this.userFile = userFile;
     }
+
+    public Post(int id, String title, String caption, String text, String file, String username, String userFile) {
+        this.id = id;
+        this.title = title;
+        this.caption = caption;
+        this.text = text;
+        this.file = file;
+        this.username = username;
+        this.userFile = userFile;
+    }
+    
     
     public Post(){}
 
@@ -77,5 +89,14 @@ public class Post {
     public void setUserFile(String userFile) {
         this.userFile = userFile;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
 }

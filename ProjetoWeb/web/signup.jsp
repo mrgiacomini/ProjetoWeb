@@ -6,8 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%if(request.getSession().getAttribute("logado")!=null){
-  //          response.sendRedirect("principal.jsp");
+<%if(request.getSession().getAttribute("logado")==null){
+            response.sendRedirect("principal.jsp");
         }
 %>
 
