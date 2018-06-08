@@ -6,6 +6,7 @@
 package controller;
 
 import DAO.UserDAO;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -61,7 +62,7 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("signup.jsp");
     }
 
     /**
@@ -84,26 +85,33 @@ public class SignUpServlet extends HttpServlet {
         
         //upload 
         Part part = request.getPart("upload");
-        String images_path = request.getServletContext().getRealPath("/uploads"); //caminho local
-        String fileName = UUID.randomUUID().toString(); //nome aletorio para armazenamento
-        String str[] = part.getContentType().split("/");
+        //pega o caminho absoluto do projeto no servidor
+        String images_path = request.getServletContext().getRealPath("");         
+        images_path+="/uploads"; //adiciona no caminho a pasta uplaods
+
+        File file = new File(images_path);    //verifica se a pasta existe, caso não, é criada
+        if(!file.exists()){
+            file.mkdir();
+            images_path=file.getAbsolutePath();//retorna o caminho absoluto ja com a pasta criada
+        }
+        
+        //gera nome aletorio para armazenamento
+        String fileName = UUID.randomUUID().toString(); 
+        String str[] = part.getContentType().split("/"); //pega o tipo do arquivo
         String type = str[1];                           //ex: image/png returns png
 
         String filePath = "";
-        if (!type.equals("octet-stream")) {
+        if (!type.equals("octet-stream")) {  //caso existir algum arquivo
             filePath = "uploads/" + fileName + "." + type; //caminho no servidor
 
             InputStream in = part.getInputStream();
             Files.copy(in, Paths.get(images_path + "/" + fileName + "." + type), StandardCopyOption.REPLACE_EXISTING);
-            //Files.copy(in, Paths.get("/uploads/" + name + "." + type), StandardCopyOption.REPLACE_EXISTING);
-            //part.write(filePath);
             part.delete();
-
         }
 
         UserDAO userDao = new UserDAO();
         if (usuario.equals("")) {
-            request.getSession().setAttribute("error", "Campo suário está vazio!");
+            request.getSession().setAttribute("error", "Campo usuário está vazio!");
             response.sendRedirect("signup.jsp");
 
         } else if (userDao.searchUser(usuario)) { //consulta no banco se existe o mesmo nome de usuario
@@ -130,20 +138,29 @@ public class SignUpServlet extends HttpServlet {
             request.getSession().setAttribute("error", "Campo senha está vazio!");
             response.sendRedirect("signup.jsp");
 
-        } else if (senha.length() != 6) {
-            request.getSession().setAttribute("error", "Senha tem que ser de 6 dígitos!");
+        } else if (senha.length() < 6 || senha.length() > 10) {
+            request.getSession().setAttribute("error", "Senha tem que ser de 6 a 10 dígitos!");
             response.sendRedirect("signup.jsp");
 
         } else if (!senha.equals(repetir_senha)) {
             request.getSession().setAttribute("error", "Senha não corresponde!");
             response.sendRedirect("signup.jsp");
 
-        } else if (userDao.insertUser(usuario, email, endereco, senha, filePath)) { //se inseriu no banco, cria a session e volta ao home
+        } else if (filePath == null || filePath.equals("")) {
+            request.getSession().setAttribute("error", "Escolha uma foto de perfil!");
+            response.sendRedirect("signup.jsp");
+
+        }else if (userDao.insertUser(usuario, email, endereco, senha, filePath)) { //se inseriu no banco, cria a session e volta ao home
             request.getSession().setAttribute("logado", true);
             request.getSession().setAttribute("usuario", usuario);
 
             response.sendRedirect("principal.jsp");
-        }
+        }else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+                request.getSession().setAttribute("error", "Erro, tente novamente!");
+                response.sendRedirect("signup.jsp");
+            }
 
     }
 

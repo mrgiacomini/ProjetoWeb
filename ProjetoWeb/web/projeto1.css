@@ -2,12 +2,12 @@
     p{
         margin-top: 14px;
     }
-    ul{
+    /*ul{
         display: none;
     }
     .caption{
         display: none;
-    }
+    }*/
     .container2{
         width: 90%;
     }
@@ -150,21 +150,23 @@ li.bordered{
 }
 
 .learn_more{
-    position: absolute;
-    top: 90%;
-    left: 50%;
+    position: relative;
+    /*top: 90%;
+    left: 20%;
     transform: translate(-50%, -140%);
+    */
     font-weight: bold;
     color: white;
     background-color: #00cc99;
     padding: 10px 20px;
     border-radius: 2px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .container2{
     position: relative;
-    top: 40px;
+    top: 20px;
     margin: auto;
     color: #595959;
     text-align: center;
@@ -212,7 +214,14 @@ li.bordered{
 .posts{
     margin-bottom: 7em; /* pega em relação a div pai, para limitar o tamanho do div dos 'posts' */
 }
-
+.btn_search {
+    border: 1px solid;
+    padding: 2px;
+    display: inline;
+    background: none;
+    text-decoration: none;
+    color: inherit;
+}
 .btn_delete {
     border: 1px solid;
     padding: 2px;

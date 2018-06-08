@@ -98,25 +98,38 @@ public class PublishServlet extends HttpServlet {
         PostDAO newPost = new PostDAO();
 
         Part part = request.getPart("upload");
-        String images_path = request.getServletContext().getRealPath("/uploads");
+        
+        //pega o caminho absoluto do projeto no servidor
+        String images_path = request.getServletContext().getRealPath("");         
+        images_path+="/uploads"; //adiciona no caminho a pasta uplaods
 
-        String fileName = UUID.randomUUID().toString(); //nome aletorio para armazenamento
-        String str[] = part.getContentType().split("/");
+        File file = new File(images_path);    //verifica se a pasta existe, caso não, é criada
+        if(!file.exists()){
+            file.mkdir();
+            images_path=file.getAbsolutePath();//retorna o caminho absoluto ja com a pasta criada
+        }
+        
+        //gera nome aletorio para armazenamento
+        String fileName = UUID.randomUUID().toString(); 
+        String str[] = part.getContentType().split("/"); //pega o tipo do arquivo
         String type = str[1];                           //ex: image/png returns png
 
         String filePath = "";
-        if (!type.equals("octet-stream")) {
+        if (!type.equals("octet-stream")) {  //caso existir algum arquivo
             filePath = "uploads/" + fileName + "." + type; //caminho no servidor
 
             InputStream in = part.getInputStream();
             Files.copy(in, Paths.get(images_path + "/" + fileName + "." + type), StandardCopyOption.REPLACE_EXISTING);
-            //Files.copy(in, Paths.get("/uploads/" + name + "." + type), StandardCopyOption.REPLACE_EXISTING);
-            //part.write(filePath);
             part.delete();
 
         }
+        if(title == null || text == null || title.equals("") || text.equals("")){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
-        if (newPost.insertPost(title, caption, text, filePath, request.getSession().getAttribute("usuario").toString())) {
+            request.getSession().setAttribute("error", "Campo vazio!");
+            response.sendRedirect("publish.jsp");
+            
+        }else if (newPost.insertPost(title, caption, text, filePath, request.getSession().getAttribute("usuario").toString())) {
             response.sendRedirect("principal.jsp");
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

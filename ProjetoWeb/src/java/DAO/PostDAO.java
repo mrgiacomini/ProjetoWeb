@@ -7,15 +7,6 @@ package DAO;
 
 import controller.ConnectionFactory;
 import static controller.ConnectionFactory.getConnection;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.Part;
 import model.Post;
 import model.User;
 
@@ -31,15 +21,39 @@ import model.User;
  *
  * @author mathe
  */
-public class PostDAO {
+public class PostDAO extends ConnectionFactory{
     
     private Connection conn = null;
     
     public ArrayList listPosts(){
         ArrayList<Post> lista = new ArrayList();
          try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post ORDER BY id_post DESC");
+            ResultSet r = ps.executeQuery();
+            while(r.next()) {
+               lista.add(new Post(r.getInt("id_post"), r.getString("title"), r.getString("caption"),
+                       r.getString("text"), r.getString("file_path"), r.getString("username"), r.getString("user_file")));
+            }
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        return lista;
+    }
+    
+    public ArrayList listPosts(String query){
+        ArrayList<Post> lista = new ArrayList();
+         try {
+            conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * from tb_post WHERE "
+                    +"title ilike ? or  caption ilike ? or text ilike ? ORDER BY id_post DESC");
+            ps.setString(1, "%"+query+"%");
+            ps.setString(2, "%"+query+"%");
+            ps.setString(3, "%"+query+"%");
             ResultSet r = ps.executeQuery();
             while(r.next()) {
                lista.add(new Post(r.getInt("id_post"), r.getString("title"), r.getString("caption"),
@@ -59,7 +73,7 @@ public class PostDAO {
         Post post;
         
         try {
-            conn = ConnectionFactory.getConnection();
+            conn = getConnection();
             
             //consulta o usuario que esta logado para pegar a imagem
             PreparedStatement p = conn.prepareStatement("SELECT file_path from tb_user where username = '"+username+"'");

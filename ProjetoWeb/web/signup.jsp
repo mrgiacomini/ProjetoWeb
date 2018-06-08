@@ -16,29 +16,29 @@
 </jsp:include>
 
 <div class="header" style="height: 60px">
-    <form action="SignUpServlet" method="POST" enctype="multipart/form-data">
+    <form action="SignUpServlet" method="POST" enctype="multipart/form-data"accept-charset="ISO-8859-1">
         <legend class="title font text">Cadastro</legend><br><br>
-        Nome de usuário:*<br>
+        Nome de usuário:<br>
         <input type="text" name="usuario" value="">
         <br><br>
-        Email:*<br>
+        Email:<br>
         <input type="text" name="email" value="">
         <br><br>
-        Endereço:*<br>
+        Endereço:<br>
         <input type="text" name="endereco" value="">
         <br><br>
-        Senha:* (6 dígitos)<br>
+        Senha: (6 a 10 dígitos)<br>
         <input type="password" name="senha" value="">
         <br><br>
-        Repetir senha:*<br>
+        Repetir senha:<br>
         <input type="password" name="repetir_senha" value=""><br><br>
         
-        * Campos obrigatórios.<br><br>
-        
         <br>
-        <legend>Foto</legend><br>
+        <legend>Foto de perfil:</legend><br>
         <input type="file" accept="image/*" name="upload"> 
         <br><br><br>
+        
+        *Todos os campos são obrigatórios.<br><br>
                 
         <input type="submit" value="Cadastrar">
             

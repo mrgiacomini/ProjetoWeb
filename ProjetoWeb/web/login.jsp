@@ -16,7 +16,7 @@
 </jsp:include>
     
         <div class="header" style="height: 60px">
-        <form action="LoginServlet" method="POST">
+        <form action="LoginServlet" method="POST" accept-charset="ISO-8859-1">
             <legend class="title font text">Login</legend><br><br>
             <legend>Usuário</legend>
             <input type="text" name="usuario" value="">

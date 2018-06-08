@@ -12,26 +12,26 @@
 %>
 
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Edit | New content"/>
+    <jsp:param name="title" value="Gravity | Publish"/>
 </jsp:include>
                 
         <div style="height: 50px; width: 400px; margin: auto; text-align: center; justify-content: center;">
                    
-            <form action="PublishServlet" method="post" id="publishform"  enctype="multipart/form-data">
+            <form action="PublishServlet" method="post" id="publishform"  enctype="multipart/form-data" accept-charset="ISO-8859-1">
                 <br><br><br>
-                <legend class="title font text">New Content</legend>
+                <legend class="title font text">Publicação</legend>
                 
-                <br><br><br><legend>Title</legend>                    
+                <br><br><br><legend>Título</legend>                    
                 <input style="width: 100%" name="title" type="text" value="">
                 <br><br>
-                <legend>Caption</legend>
+                <legend>Subtítulo (opcional)</legend>
                 <input style="width: 100%" name="caption" type="text" value="">
                 <br><br>
-                <legend>Text</legend>
+                <legend>Texto</legend>
                 <textarea name="text" form="publishform" rows="10" style="width: 100%"></textarea>
                 <br><br>
-                <legend>Image</legend>
-                <input type="file" accept="image/*,video/*,audio/*" name="upload"> 
+                <legend>Imagem (opcional)</legend>
+                <input type="file" accept="image/*" name="upload"> 
                 <br><br><br>
                 <input type="submit" value="Publish">
                 
@@ -40,9 +40,8 @@
             <% String error = (String) request.getSession().getAttribute("error");
             if (error != null) {%>
                 <p class="error"> <%=error%> </p>
-            
-            <%}
-              request.getSession().removeAttribute("error");  //remove o atributo da session para não aparecer mais%>
+            <%}%>
+              <%request.getSession().removeAttribute("error");  //remove o atributo da session para não aparecer mais%>
 
         </div>
     </body>
