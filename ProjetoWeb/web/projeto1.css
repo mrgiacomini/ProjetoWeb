@@ -173,7 +173,9 @@ li.bordered{
 }
 .info{
     height: auto;
+    
 }
+
 
 .profile{
     position: relative;
@@ -233,4 +235,10 @@ li.bordered{
 }
 button:hover {
     cursor: pointer;
+}
+
+.progressbar{
+    position: relative;
+    display: block;
+    margin: auto;
 }

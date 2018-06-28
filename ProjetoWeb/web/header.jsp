@@ -10,7 +10,13 @@
     <head>
         <title><%= request.getParameter("title") %></title>
         <link type="text/css" rel="stylesheet" href="projeto1.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="handlebars-v4.0.11.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+                
+                
     </head>
     <body>
 

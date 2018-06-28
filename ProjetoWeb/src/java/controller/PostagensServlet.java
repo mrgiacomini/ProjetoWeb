@@ -62,7 +62,7 @@ public class PostagensServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("principal.jsp");
     }
 
     /**
@@ -76,12 +76,12 @@ public class PostagensServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    
-        GsonBuilder gsonBuilder = new GsonBuilder();
-      Gson gson = gsonBuilder.create();
-            PostDAO postDao = new PostDAO();
-            ArrayList<Post> lista = postDao.listPosts();  
+        PostDAO postDao = new PostDAO();
+        ArrayList<Post> lista = postDao.listPosts();  
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
+        response.getWriter().write(new Gson().toJson(lista));
                 
     }
 
